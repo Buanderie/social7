@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var User = new Schema({
+var UserSchema = new Schema({
   email: {
     type: String,
     index: { unique: true }
@@ -13,4 +13,4 @@ var User = new Schema({
   salt: String
 });
 
-mongoose.model('Fuck', User);
+mongoose.model('User', UserSchema);
