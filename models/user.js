@@ -1,6 +1,10 @@
-var mongoose = require('mongoose');
+//Requires
+var md5 = require('md5');
+
+//
 var Schema = mongoose.Schema;
 
+//
 var UserSchema = new Schema({
   email: {
     type: String,
@@ -10,7 +14,15 @@ var UserSchema = new Schema({
   lastseen: Date,
   isonline: Boolean,
   hashed_password: String,
-  salt: String
+  registered: Boolean
 });
 
-mongoose.model('User', UserSchema);
+UserSchema.virtual('password')
+    .get(function() {
+        return this.hashed_password;
+    })
+    .set(function(password) {
+        this.hashed_password = md5.digest_s(password);
+    });
+
+module.exports = mongoose.model('User', UserSchema);
