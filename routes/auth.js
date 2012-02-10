@@ -10,7 +10,7 @@ module.exports = function(app){
 
     //GET - User login
     app.get('/login', function(req, res) {
-        res.render('login', { layout: false });
+        res.render('login', { layout: 'layout_auth' });
     });
 
     //GET - User logout
@@ -45,7 +45,7 @@ module.exports = function(app){
 
     //GET - User registration
     app.get('/register', function(req, res){
-        res.render('register');
+        res.render('register', {layout: 'layout_auth'} );
     });
 
     //POST - User registration
@@ -58,18 +58,16 @@ module.exports = function(app){
         usr.registered = false;
 
         usr.save( function(err){
-            console.log(err);
+            //console.log(err);
             if( err != null ){
                 if( err.code == 11000 )
                 {
-                    req.flash('info', 'email queued');
-                    res.render('error', {errormsg : 'Email already registered!'});
+                    res.render('error', {errormsg : 'Email already registered!', layout:'layout_auth'});
                 }
             }
             else{
                 res.redirect('/');
             }
         });
-
     });
 }
